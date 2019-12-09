@@ -11,6 +11,6 @@ rl.on("line", function(line) {
     line
       .split("")
       .reverse()
-      .join("")
+      .join("") + "\n"
   );
 });
