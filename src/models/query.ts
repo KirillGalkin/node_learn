@@ -3,6 +3,10 @@ export interface IQuery {
     field: string;
     search: string;
   };
-  sort: string;
+  sort: string || {
+    field: string
+    direction: ||
+  };
   limit: number;
+  offset: number;
 }

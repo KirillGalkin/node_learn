@@ -1,12 +1,15 @@
 import express from "express";
 import { userCollection } from "./collection";
+import { handler } from "./utils/api";
 
 const app = express();
 
-app.get("/users", async (req, res) => {
+const getAllUsers = async (req: express.Request) => {
   const users = await userCollection.findAll();
-  res.send(users);
-});
+  return users;
+};
+
+app.get("/users", handler(getAllUsers));
 
 app.get("/user/:id", async (req, res) => {
   const id = req.params.id;

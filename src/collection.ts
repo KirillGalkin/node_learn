@@ -9,6 +9,7 @@ type RowByKey = {
 const users = createUsers(25);
 
 class Collection {
+  private keyColumn: keyof IUser = "id";
   private rows: IUser[];
   private indexedByKey: RowByKey = {};
 
@@ -16,11 +17,14 @@ class Collection {
     return new Promise(resolve => setTimeout(() => resolve(value), ms));
   }
 
-  constructor(rows: IUser[]) {
+  constructor(rows: IUser[], keyColumn?: keyof IUser) {
     this.rows = rows;
+    if (keyColumn) {
+      this.keyColumn = keyColumn;
+    }
     rows.forEach(row => {
-      const key = row.id;
-      this.indexedByKey[key] = row;
+      const key = row[this.keyColumn];
+      this.indexedByKey[key as string] = row;
     });
   }
 
@@ -32,32 +36,42 @@ class Collection {
     if (!query) {
       return await Collection.returnAfterMs(this.rows);
     }
-    return await Collection.returnAfterMs(this.rows);
+
+    const { field, search } = query;
+    let rows = this.rows;
+
+    if (query.filter) {
+      rows = rows.filter(row => row[field].includes(search));
+    }
+    if (query.sort) {
+      rows = rows.sort();
+    }
+    if (query.limit) {
+      rows = rows.slice();
+    }
+
+    return await Collection.returnAfterMs(rows);
 
     // TODO
   }
 
-  //   async insert(entity: IUser) {
-  //     this.rows.push(entity);
-  //     this.indexedByKey[this.keyColumn] = entity;
-  //     return await Collection.returnAfterMs(true);
-  //   }
+  async insert(entity: IUser) {
+    this.rows.push(entity);
+    this.indexedByKey[this.keyColumn] = entity;
+    return await Collection.returnAfterMs(true);
+  }
 
-  // async update(entity) {
-  //     if (this.indexedByKey[]) {
-  //         const keyValue = entity[this.keyColumn];
-  //         this.rows = this.rows.map(e => {
-  //             const key = e[this.keyColumn];
-  //             if (key === keyValue) {
-  //                 return entity;
-  //             }
-  //             return e;
-  //         });
-  //         this.indexedByKey[keyValue] = entity;
-  //         return await Collection.returnAfterMs(true);
-  //     }
-  //     return await Collection.returnAfterMs(false);
-  // }
+  async update(entity: IUser) {
+    const key = entity[this.keyColumn];
+    if (this.indexedByKey[key as string]) {
+      const fields = Object.keys(entity);
+      for (const field of fields) {
+        this.indexedByKey[key as string][field] = entity[field as keyof IUser];
+      }
+      return await Collection.returnAfterMs(true);
+    }
+    return await Collection.returnAfterMs(false);
+  }
 
   async delete(id: string) {
     this.indexedByKey[id].isDeleted = true;
