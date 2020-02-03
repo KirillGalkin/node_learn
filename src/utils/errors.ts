@@ -11,3 +11,9 @@ export class NotFoundError extends ApiError {
     super(404, message || "Not found");
   }
 }
+
+export class ValidationError extends ApiError {
+  constructor(message?: string) {
+    super(422, message || "Validation Error");
+  }
+}

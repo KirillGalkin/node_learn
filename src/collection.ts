@@ -37,22 +37,35 @@ class Collection {
       return await Collection.returnAfterMs(this.rows);
     }
 
-    const { field, search } = query;
+    const { search } = query.filter;
     let rows = this.rows;
-
     if (query.filter) {
-      rows = rows.filter(row => row[field].includes(search));
+      rows = rows.filter(row => row.login.includes(search));
     }
     if (query.sort) {
-      rows = rows.sort();
+      const { direction } = query.sort;
+      this.sortUsers(rows, direction);
     }
     if (query.limit) {
-      rows = rows.slice();
+      rows = rows.slice(0, query.limit);
     }
 
     return await Collection.returnAfterMs(rows);
+  }
 
-    // TODO
+  private sortUsers(rows: IUser[], direction = "asc") {
+    const loginArray = rows.map(row => row.login);
+    const sortedLogins = loginArray.sort((a: string, b: string) => {
+      let result;
+      if (direction === "asc") {
+        result = a > b ? 1 : -1;
+      } else {
+        result = a > b ? -1 : 1;
+      }
+      return result;
+    });
+
+    return sortedLogins.map(login => rows.find(row => row.login === login));
   }
 
   async insert(entity: IUser) {
@@ -78,11 +91,5 @@ class Collection {
     return await Collection.returnAfterMs(true);
   }
 }
-
-// get /user/:id
-// get /user
-// post /user
-// put /uesr/:id
-// delete /user/:id
 
 export const userCollection = new Collection(users);
