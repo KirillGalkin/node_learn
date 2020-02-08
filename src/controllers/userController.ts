@@ -1,6 +1,7 @@
 import express from "express";
 import { userCollection } from "../collection";
 import { IQuery } from "../models/query";
+import { IUser } from "../models/user";
 
 export const getAllUsers = async (req: express.Request) => {
   const users = await userCollection.findAll();
@@ -31,5 +32,7 @@ export const getAutoSuggestUsers = async (req: express.Request) => {
 };
 
 export const upsertUser = async (req: express.Request) => {
-  // upsert implementation
+  const entity: IUser = req.body;
+  const result = await userCollection.update(entity);
+  return result;
 };

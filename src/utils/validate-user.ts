@@ -24,7 +24,10 @@ export const validate = (schema: Joi.ObjectSchema<IUser>) => {
     next: express.NextFunction
   ) => {
     try {
-      schema.validate(req.body);
+      const result = schema.validate(req.body);
+      if (result.error) {
+        return res.status(400).json(result.error);
+      }
       next();
     } catch (err) {
       next(new ValidationError(err.message));

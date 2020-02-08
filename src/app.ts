@@ -1,4 +1,5 @@
 import express from "express";
+import bodyParser from "body-parser";
 import { handler } from "./utils/api";
 import { UserBodySchema, validate } from "./utils/validate-user";
 import { ValidationError } from "./utils/errors";
@@ -11,6 +12,8 @@ import {
 } from "./controllers/userController";
 
 const app = express();
+
+app.use(bodyParser.json());
 
 app.get("/users", handler(getAllUsers));
 

@@ -47,9 +47,8 @@ class Collection {
       this.sortUsers(rows, direction);
     }
     if (query.limit) {
-      rows = rows.slice(0, query.limit);
+      rows = this.rows.slice(0, query.limit);
     }
-
     return await Collection.returnAfterMs(rows);
   }
 
@@ -68,12 +67,6 @@ class Collection {
     return sortedLogins.map(login => rows.find(row => row.login === login));
   }
 
-  async insert(entity: IUser) {
-    this.rows.push(entity);
-    this.indexedByKey[this.keyColumn] = entity;
-    return await Collection.returnAfterMs(true);
-  }
-
   async update(entity: IUser) {
     const key = entity[this.keyColumn];
     if (this.indexedByKey[key as string]) {
@@ -81,14 +74,15 @@ class Collection {
       for (const field of fields) {
         this.indexedByKey[key as string][field] = entity[field as keyof IUser];
       }
-      return await Collection.returnAfterMs(true);
+      return await Collection.returnAfterMs(this.indexedByKey[key as string]);
     }
-    return await Collection.returnAfterMs(false);
+    this.indexedByKey[entity.id] = entity;
+    return await Collection.returnAfterMs(this.indexedByKey[entity.id]);
   }
 
   async delete(id: string) {
     this.indexedByKey[id].isDeleted = true;
-    return await Collection.returnAfterMs(true);
+    return await Collection.returnAfterMs(this.indexedByKey[id]);
   }
 }
 
