@@ -20,10 +20,10 @@ const users = Array(20)
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert("users", users, {});
+    return queryInterface.bulkInsert("Users", users, {});
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete("users", null, {});
+    return queryInterface.bulkDelete("Users", null, {});
   }
 };

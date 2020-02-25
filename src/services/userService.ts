@@ -1,13 +1,15 @@
-import { User } from "../test";
+import { User } from "../models";
 import { IQuery } from "../models/query";
 import { Op } from "sequelize";
-import { IUser } from "../models/user";
+import { IUser } from "../models/User";
 
 type FindSettingsType = {
   where?: { login: Object };
   limit?: number;
   order: Array<any>[];
 };
+
+// add constructor to the userService with User model
 
 class UserService {
   async findAll(query: IQuery) {

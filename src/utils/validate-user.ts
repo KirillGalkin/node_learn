@@ -1,6 +1,6 @@
 import express from "express";
 import Joi from "@hapi/joi";
-import { IUser } from "../models/user";
+import { IUser } from "../models/User";
 import { ValidationError } from "./errors";
 
 export const UserBodySchema = Joi.object({
