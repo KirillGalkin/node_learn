@@ -4,24 +4,21 @@ import { handler } from "./utils/api";
 import { UserBodySchema, validate } from "./utils/validate-user";
 import { ValidationError } from "./utils/errors";
 import {
-  getAllUsers,
+  getUsers,
   getUserById,
   deleteUser,
-  getAutoSuggestUsers,
   upsertUser
-} from "./controllers/userController";
+} from "./api/routers/controllers/userController";
 
 const app = express();
 
 app.use(bodyParser.json());
 
-app.get("/users", handler(getAllUsers));
+app.get("/users", handler(getUsers));
 
 app.get("/users/:id", handler(getUserById));
 
 app.delete("/users/:id", handler(deleteUser));
-
-app.get("/autosuggest", handler(getAutoSuggestUsers));
 
 app.post("/updateUser", validate(UserBodySchema), handler(upsertUser));
 

@@ -1,9 +1,5 @@
 export interface IQuery {
-  filter: {
-    search: string;
-  };
-  sort: {
-    direction?: "asc" | "desc";
-  };
+  search: string;
+  sort: "ASC" | "DESC";
   limit?: number;
 }

@@ -14,7 +14,9 @@ export const UserBodySchema = Joi.object({
     .min(4)
     .max(130)
     .required(),
-  isDeleted: Joi.boolean().required()
+  isDeleted: Joi.boolean().required(),
+  createdAt: Joi.date(),
+  updatedAt: Joi.date()
 });
 
 export const validate = (schema: Joi.ObjectSchema<IUser>) => {
