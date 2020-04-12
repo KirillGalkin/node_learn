@@ -1,7 +1,7 @@
 import express from "express";
 import { IQuery } from "../../../models/query";
-import { IUser } from "../../../models/user";
 import { userService } from "../../../services/userService";
+import { User } from "../../../entity/User";
 
 export const getUsers = async (req: express.Request) => {
   const { search, limit, sort } = req.query;
@@ -27,7 +27,7 @@ export const deleteUser = async (req: express.Request) => {
 };
 
 export const upsertUser = async (req: express.Request) => {
-  const entity: IUser = req.body;
+  const entity: User = req.body;
   const result = await userService.update(entity);
   return result;
 };

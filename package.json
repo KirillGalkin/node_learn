@@ -8,8 +8,9 @@
     "reverse": "nodemon --exec babel-node ./src/reverse_string.js",
     "csv": "nodemon --exec babel-node ./src/csv_to_json.js",
     "start": "nodemon --exec ts-node ./src/app.ts",
-    "seed": "sequelize db:seed:all",
-    "migrations": "echo no migration script provided"
+    "seed": "ts-node src/index.ts",
+    "migrations": "echo no migration script provided",
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
   },
   "repository": {
     "type": "git",
@@ -29,14 +30,14 @@
     "@babel/preset-env": "^7.7.4",
     "@types/express": "^4.17.2",
     "@types/hapi__joi": "^16.0.9",
-    "@types/node": "^13.7.4",
+    "@types/node": "^8.0.29",
     "@types/bluebird": "^3.5.29",
     "@types/joi": "^14.3.4",
     "@types/uuid": "^3.4.6",
     "@types/validator": "^12.0.1",
     "nodemon": "^2.0.0",
-    "ts-node": "^8.5.4",
-    "typescript": "^3.7.4"
+    "ts-node": "3.3.0",
+    "typescript": "3.3.3333"
   },
   "dependencies": {
     "@hapi/joi": "^17.1.0",
@@ -44,11 +45,12 @@
     "csvtojson": "^2.0.10",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "mysql": "^2.14.1",
     "pg": "^7.18.2",
     "pg-hstore": "^2.3.3",
     "prettier": "^1.19.1",
-    "sequelize": "^5.21.5",
-    "sequelize-cli": "^5.5.1",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.2.24",
     "uuid": "^3.3.3"
   }
 }

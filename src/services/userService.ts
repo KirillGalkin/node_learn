@@ -1,26 +1,26 @@
-import { User } from "../models";
+import { User } from "../entity/User";
 import { IQuery } from "../models/query";
-import { Op } from "sequelize";
-import { IUser } from "../models/User";
+import { Like, FindOperator } from "typeorm";
 
 type FindSettingsType = {
-  where?: { login: Object };
-  limit?: number;
-  order: Array<any>[];
+  order: { login: "ASC" | "DESC" };
+  take: number;
+  where?: { login: FindOperator<string> };
 };
-
-// add constructor to the userService with User model
 
 class UserService {
   async findAll(query: IQuery) {
     const { search, sort = "ASC", limit = 10 } = query;
-    const findSettings: FindSettingsType = { limit, order: [["login", sort]] };
+    const findSettings: FindSettingsType = {
+      order: { login: sort },
+      take: limit
+    };
 
     if (search) {
-      findSettings.where = { login: { [Op.iLike]: `%${search}%` } };
+      findSettings.where = { login: Like(`%${search}%`) };
     }
 
-    return User.findAll(findSettings);
+    return User.find(findSettings);
   }
 
   async findOne(id: string) {
@@ -28,11 +28,11 @@ class UserService {
   }
 
   async delete(id: string) {
-    return await User.update({ isDeleted: true }, { where: { id } });
+    return await User.update({ id }, { isDeleted: true });
   }
 
-  async update(entity: IUser) {
-    return await User.upsert({ ...entity });
+  async update(entity: User) {
+    return await User.save(entity);
   }
 }
 
