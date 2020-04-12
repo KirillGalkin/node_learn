@@ -1,4 +1,5 @@
 import express from "express";
+import { createConnection } from "typeorm";
 import bodyParser from "body-parser";
 import { handler } from "./utils/api";
 import { UserBodySchema, validate } from "./utils/validate-user";
@@ -36,6 +37,8 @@ app.use(
   }
 );
 
-app.listen(3000, function() {
-  console.log("Example app listening on port 3000!");
+createConnection().then(_ => {
+  app.listen(3000, function() {
+    console.log("Example app listening on port 3000!");
+  });
 });
