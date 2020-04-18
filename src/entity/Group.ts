@@ -4,8 +4,10 @@ import {
   PrimaryColumn,
   Column,
   BeforeInsert,
+  ManyToMany,
 } from "typeorm";
 import { v4 } from "uuid";
+import { User } from "./User";
 
 export type Permission = "READ" | "WRITE" | "DELETE" | "SHARE" | "UPLOAD_FILES";
 
@@ -27,6 +29,13 @@ export class Group extends BaseEntity {
     default: "READ",
   })
   permissions: Permission[];
+
+  @ManyToMany(
+    (type) => User,
+    (user) => user.groups,
+    { cascade: true }
+  )
+  users: User[];
 
   @BeforeInsert()
   addId() {

@@ -9,6 +9,7 @@ import {
   getUserById,
   deleteUser,
   upsertUser,
+  addUserToGroup,
 } from "./api/routers/controllers/userController";
 import {
   getGroups,
@@ -36,6 +37,8 @@ app.get("/groups/:id", handler(getGroupById));
 app.delete("/groups/:id", handler(deleteGroup));
 
 app.post("/updateGroup", handler(upsertGroup));
+
+app.post("/addUsersToGroup", handler(addUserToGroup));
 
 app.use(
   (

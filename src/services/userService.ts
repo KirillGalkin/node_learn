@@ -1,6 +1,6 @@
 import { User } from "../entity/User";
 import { IQuery } from "../models/query";
-import { Like, FindOperator } from "typeorm";
+import { Like, FindOperator, getManager } from "typeorm";
 
 type FindSettingsType = {
   order: { login: "ASC" | "DESC" };
@@ -13,7 +13,7 @@ class UserService {
     const { search, sort = "ASC", limit = 10 } = query;
     const findSettings: FindSettingsType = {
       order: { login: sort },
-      take: limit
+      take: limit,
     };
 
     if (search) {
@@ -28,7 +28,8 @@ class UserService {
   }
 
   async delete(id: string) {
-    return await User.update({ id }, { isDeleted: true });
+    const foundUser = await User.findOne({ id });
+    getManager("default").softRemove(foundUser);
   }
 
   async update(entity: User) {

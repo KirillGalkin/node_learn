@@ -1,4 +1,6 @@
+import { User } from "./../src/entity/User";
 import { Permission } from "./../src/entity/Group";
+import { users } from "./users.seed";
 
 const permissions: Permission[] = [
   "READ",

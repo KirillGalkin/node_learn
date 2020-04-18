@@ -1,3 +1,4 @@
+import { userGroupService } from "./../../../services/userGroupService";
 import express from "express";
 import { IQuery } from "../../../models/query";
 import { userService } from "../../../services/userService";
@@ -8,7 +9,7 @@ export const getUsers = async (req: express.Request) => {
   const query: IQuery = {
     search,
     sort,
-    limit
+    limit,
   };
   const users = await userService.findAll(query);
   return users;
@@ -29,5 +30,12 @@ export const deleteUser = async (req: express.Request) => {
 export const upsertUser = async (req: express.Request) => {
   const entity: User = req.body;
   const result = await userService.update(entity);
+  return result;
+};
+
+export const addUserToGroup = async (req: express.Request) => {
+  const userIds: string[] = req.body.users;
+  const groupId: string = req.body.group;
+  const result = await userGroupService.addUserToGroup(userIds, groupId);
   return result;
 };

@@ -1,9 +1,14 @@
+import { users } from "./../../seeders/users.seed";
+import { Group } from "./Group";
 import {
   Entity,
   Column,
   BeforeInsert,
   BaseEntity,
-  PrimaryColumn
+  PrimaryColumn,
+  ManyToMany,
+  JoinTable,
+  DeleteDateColumn,
 } from "typeorm";
 import { v4 } from "uuid";
 
@@ -25,8 +30,15 @@ export class User extends BaseEntity {
   @Column({ type: "integer" })
   age: number;
 
-  @Column({ type: "boolean" })
-  isDeleted: boolean;
+  @DeleteDateColumn({ name: "deleted" })
+  deletedAt?: Date;
+
+  @ManyToMany(
+    (type) => Group,
+    (group) => group.users
+  )
+  @JoinTable({ name: "UserGroup" })
+  groups: Group[];
 
   @BeforeInsert()
   addId() {
