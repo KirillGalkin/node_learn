@@ -17,10 +17,19 @@ import {
   deleteGroup,
   upsertGroup,
 } from "./api/routers/controllers/groupController";
+import morgan from "morgan";
+import { stream, logger } from "../config/winston";
 
 const app = express();
 
+process
+  .on("unhandledRejection", (reason) => {
+    console.log("Unhandled Rejection at:", reason);
+  })
+  .on("uncaughtException", (err) => console.log(`Caught exception: ${err}`));
+
 app.use(bodyParser.json());
+app.use(morgan("combined", { stream }));
 
 app.get("/users", handler(getUsers));
 
@@ -54,8 +63,10 @@ app.use(
   }
 );
 
-createConnection().then((_) => {
-  app.listen(3000, function() {
-    console.log("Example app listening on port 3000!");
-  });
-});
+createConnection()
+  .then((_) => {
+    app.listen(3000, function() {
+      console.log("Example app listening on port 3000!");
+    });
+  })
+  .catch((err) => logger.error("App starting error:", err.stack));

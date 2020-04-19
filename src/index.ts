@@ -4,6 +4,7 @@ import { User } from "./entity/User";
 import { users } from "../seeders/users.seed";
 import { Group } from "./entity/Group";
 import { groups } from "../seeders/group.seed";
+import { logger } from "../config/winston";
 
 createConnection()
   .then(async (connection) => {
@@ -16,10 +17,13 @@ createConnection()
       const groupEntity = new Group(group);
       return groupEntity;
     });
-
-    await Promise.all([
-      connection.manager.save(usersEntites),
-      connection.manager.save(groupEntites),
-    ]);
+    try {
+      await Promise.all([
+        connection.manager.save(usersEntites),
+        connection.manager.save(groupEntites),
+      ]);
+    } catch (err) {
+      logger.error("Seed script error:", err.stack);
+    }
   })
-  .catch((error) => console.log(error));
+  .catch((err) => logger.error("Seed script db connection error:", err.stack));
