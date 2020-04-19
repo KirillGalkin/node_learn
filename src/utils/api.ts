@@ -1,14 +1,14 @@
-import express from "express";
+import { Request, Response } from "express";
 import { ApiError } from "./errors";
 
-type Controller = (req: express.Request) => Promise<any>;
+type Controller = (req: Request, res: Response) => Promise<any>;
 
 export const handler = (controller: Controller) => async (
-  req: express.Request,
-  res: express.Response
+  req: Request,
+  res: Response
 ) => {
   try {
-    const result = await controller(req);
+    const result = await controller(req, res);
     res.json(result);
   } catch (error) {
     if (error instanceof ApiError) {

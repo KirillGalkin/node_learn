@@ -19,6 +19,9 @@ import {
 } from "./api/routers/controllers/groupController";
 import morgan from "morgan";
 import { stream, logger } from "../config/winston";
+import { login } from "./api/routers/controllers/authController";
+import { checkToken } from "./middlewares/checkToken";
+import cors from "cors";
 
 const app = express();
 
@@ -30,24 +33,36 @@ process
 
 app.use(bodyParser.json());
 app.use(morgan("combined", { stream }));
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "http://testOrigin.com"],
+  })
+);
 
-app.get("/users", handler(getUsers));
+app.get("/users", checkToken, handler(getUsers));
 
-app.get("/users/:id", handler(getUserById));
+app.get("/users/:id", checkToken, handler(getUserById));
 
-app.delete("/users/:id", handler(deleteUser));
+app.delete("/users/:id", checkToken, handler(deleteUser));
 
-app.post("/updateUser", validate(UserBodySchema), handler(upsertUser));
+app.post(
+  "/updateUser",
+  checkToken,
+  validate(UserBodySchema),
+  handler(upsertUser)
+);
 
-app.get("/groups", handler(getGroups));
+app.get("/groups", checkToken, handler(getGroups));
 
-app.get("/groups/:id", handler(getGroupById));
+app.get("/groups/:id", checkToken, handler(getGroupById));
 
-app.delete("/groups/:id", handler(deleteGroup));
+app.delete("/groups/:id", checkToken, handler(deleteGroup));
 
-app.post("/updateGroup", handler(upsertGroup));
+app.post("/updateGroup", checkToken, handler(upsertGroup));
 
-app.post("/addUsersToGroup", handler(addUserToGroup));
+app.post("/addUsersToGroup", checkToken, handler(addUserToGroup));
+
+app.post("/login", handler(login));
 
 app.use(
   (

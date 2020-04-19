@@ -35,6 +35,10 @@ class UserService {
   async update(entity: User) {
     return await User.save(entity);
   }
+
+  async login(login: string, password: string) {
+    return await User.findOne({ where: { login, password } });
+  }
 }
 
 export const userService = new UserService();
