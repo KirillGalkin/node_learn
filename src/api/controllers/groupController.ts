@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { Group } from "../../../entity/Group";
-import { IQuery } from "../../../models/query";
-import { groupService } from "../../../services/groupService";
+import { Group } from "../../entity";
+import { IQuery } from "../../types/query";
+import { groupService } from "../../services/groupService";
 
 export const getGroups = async (req: Request, res: Response) => {
   const { search, limit, sort } = req.query;

@@ -1,9 +1,9 @@
 import "reflect-metadata";
-import { createConnection, getConnection } from "typeorm";
-import { User } from "./entity/User";
-import { users } from "../seeders/users.seed";
-import { Group } from "./entity/Group";
-import { groups } from "../seeders/group.seed";
+import { createConnection } from "typeorm";
+import { User } from "../src/entity";
+import { users } from "./users.seed";
+import { Group } from "../src/entity";
+import { groups } from "./group.seed";
 import { logger } from "../config/winston";
 
 createConnection()
@@ -21,6 +21,7 @@ createConnection()
       await Promise.all([
         connection.manager.save(usersEntites),
         connection.manager.save(groupEntites),
+        connection.close(),
       ]);
     } catch (err) {
       logger.error("Seed script error:", err.stack);

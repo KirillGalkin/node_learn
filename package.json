@@ -8,7 +8,7 @@
     "reverse": "nodemon --exec babel-node ./src/reverse_string.js",
     "csv": "nodemon --exec babel-node ./src/csv_to_json.js",
     "start": "nodemon --exec ts-node ./src/app.ts",
-    "seed": "ts-node src/index.ts",
+    "seed": "ts-node src/seeders/seed.ts",
     "migrations": "echo no migration script provided",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
   },

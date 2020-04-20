@@ -1,5 +1,5 @@
-import { User } from "../entity/User";
-import { IQuery } from "../models/query";
+import { User } from "../entity";
+import { IQuery } from "../types/query";
 import { Like, FindOperator, getManager } from "typeorm";
 
 type FindSettingsType = {

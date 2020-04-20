@@ -1,15 +1,12 @@
-import { Group } from "./../entity/Group";
-import { User } from "../entity/User";
+import { Group } from "./../entity";
+import { User } from "../entity";
 
 class UserGroupService {
-  addUserToGroup(usersIds: string[], groupId: string) {
-    User.findByIds(usersIds).then((users) => {
-      Group.findOne({ id: groupId }).then((group) => {
-        const foundGroup = group;
-        foundGroup.users = users;
-        foundGroup.save();
-      });
-    });
+  async addUserToGroup(usersIds: string[], groupId: string) {
+    const users = await User.findByIds(usersIds);
+    const group = await Group.findOne({ id: groupId });
+    group.users = users;
+    await group.save();
   }
 }
 

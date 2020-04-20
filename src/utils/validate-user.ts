@@ -1,7 +1,7 @@
 import express from "express";
 import Joi from "@hapi/joi";
 import { ValidationError } from "./errors";
-import { User } from "../entity/User";
+import { User } from "../entity";
 
 export const UserBodySchema = Joi.object({
   id: Joi.string().required(),
@@ -14,9 +14,6 @@ export const UserBodySchema = Joi.object({
     .min(4)
     .max(130)
     .required(),
-  isDeleted: Joi.boolean().required(),
-  createdAt: Joi.date(),
-  updatedAt: Joi.date()
 });
 
 export const validate = (schema: Joi.ObjectSchema<User>) => {

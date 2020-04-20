@@ -1,6 +1,6 @@
 import { FindOperator, Like } from "typeorm";
-import { IQuery } from "../models/query";
-import { Group } from "../entity/Group";
+import { IQuery } from "../types/query";
+import { Group } from "../entity";
 
 type FindSettingsType = {
   order: { name: "ASC" | "DESC" };

@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { userGroupService } from "./../../../services/userGroupService";
-import { IQuery } from "../../../models/query";
-import { userService } from "../../../services/userService";
-import { User } from "../../../entity/User";
+import { userGroupService } from "../../services/userGroupService";
+import { IQuery } from "../../types/query";
+import { userService } from "../../services/userService";
+import { User } from "../../entity";
 
 export const getUsers = async (req: Request, res: Response) => {
   const { search, limit, sort } = req.query;
