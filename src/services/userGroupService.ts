@@ -6,7 +6,7 @@ class UserGroupService {
     const users = await User.findByIds(usersIds);
     const group = await Group.findOne({ id: groupId });
     group.users = users;
-    await group.save();
+    return await group.save();
   }
 }
 

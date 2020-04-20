@@ -6,7 +6,6 @@ import {
   getUserById,
   deleteUser,
   upsertUser,
-  addUserToGroup,
 } from "../controllers/userController";
 import { validate, UserBodySchema } from "../../utils/validate-user";
 
@@ -21,4 +20,3 @@ userRouter.post(
   validate(UserBodySchema),
   handler(upsertUser)
 );
-userRouter.post("/addUsersToGroup", ensureAuthorized, handler(addUserToGroup));

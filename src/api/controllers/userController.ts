@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { userGroupService } from "../../services/userGroupService";
 import { IQuery } from "../../types/query";
 import { userService } from "../../services/userService";
 import { User } from "../../entity";
@@ -43,17 +42,6 @@ export const upsertUser = async (req: Request, res: Response) => {
   const entity: User = req.body;
   try {
     const result = await userService.update(entity);
-    return result;
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-export const addUserToGroup = async (req: Request, res: Response) => {
-  const userIds: string[] = req.body.users;
-  const groupId: string = req.body.group;
-  try {
-    const result = await userGroupService.addUserToGroup(userIds, groupId);
     return result;
   } catch (err) {
     res.status(500).json({ error: err.message });

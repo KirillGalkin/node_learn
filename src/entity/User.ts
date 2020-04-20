@@ -24,7 +24,7 @@ export class User extends BaseEntity {
   @Column({ type: "text" })
   login: string;
 
-  @Column({ type: "text" })
+  @Column({ type: "text", select: false })
   password: string;
 
   @Column({ type: "integer" })

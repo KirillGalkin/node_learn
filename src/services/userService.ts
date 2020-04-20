@@ -29,7 +29,7 @@ class UserService {
 
   async delete(id: string) {
     const foundUser = await User.findOne({ id });
-    getManager("default").softRemove(foundUser);
+    return await getManager("default").softRemove(foundUser);
   }
 
   async update(entity: User) {
