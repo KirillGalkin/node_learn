@@ -70,32 +70,6 @@ describe("UserController", () => {
       });
     });
   });
-  // describe("test deleteUser", () => {
-  //   beforeEach(() => {
-  //     User.findOne = jest.fn();
-  //   });
-  //   it("should delete user softly", async () => {
-  //     // jest.spyOn(getManager, "");
-  //     const id = users[0].id;
-  //     const params = { id };
-  //     const req = mockRequest({ params });
-  //     const res = mockResponse();
-  //     User.findOne = jest.fn().mockReturnValue(Promise.resolve(users[0]));
-  //     const result = await deleteUser(req, res);
-  //     expect(result).toEqual(users[0]);
-  //   });
-  //   it("unable to retrieve data from db", async () => {
-  //     const params = { id: users[0].id };
-  //     const req = mockRequest({ params });
-  //     const res = mockResponse();
-  //     User.findOne = jest
-  //       .fn()
-  //       .mockReturnValue(Promise.reject(new Error("test error")));
-  //     await deleteUser(req, res);
-  //     expect(res.status).toHaveBeenCalledWith(500);
-  //     expect(res.json).toBeCalledWith({ error: "test error" });
-  //   });
-  // });
 
   describe("test upsertUser", () => {
     beforeEach(() => {

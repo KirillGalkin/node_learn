@@ -2,6 +2,7 @@ import {
   getGroups,
   getGroupById,
   upsertGroup,
+  deleteGroup,
 } from "./../api/controllers/groupController";
 import { groups } from "./data/constants";
 import { Group } from "../entity";
@@ -94,6 +95,23 @@ describe("GroupController", () => {
       expect(res.json).toBeCalledWith({
         error: "test error",
       });
+    });
+  });
+
+  describe("test deleteGroup", () => {
+    beforeEach(() => {
+      Group.delete = jest.fn();
+    });
+    it("should delete group", async () => {
+      const id = groups[0].id;
+      const params = { id };
+      const req = mockRequest({ params });
+      const res = mockResponse();
+      Group.delete = jest
+        .fn()
+        .mockReturnValue(Promise.resolve({ raw: [], affected: 1 }));
+      const result = await deleteGroup(req, res);
+      expect(result).toEqual({ raw: [], affected: 1 });
     });
   });
 });

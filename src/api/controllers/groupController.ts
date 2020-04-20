@@ -32,8 +32,7 @@ export const getGroupById = async (req: Request, res: Response) => {
 export const deleteGroup = async (req: Request, res: Response) => {
   const id = req.params.id;
   try {
-    const group = await groupService.delete(id);
-    return group;
+    return await groupService.delete(id);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
